@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Tracker</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">⚡FITNESS BUDDY</div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('overview', event)">Overview</button>
+      <button class="tab" onclick="switchTab('workouts', event)">Workouts</button>
+      <button class="tab" onclick="switchTab('nutrition', event)">Nutrition</button>
+      <button class="tab" onclick="switchTab('body', event)">Body & Steps</button>
+    </div>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="section active">
+    <h2>Today's Summary</h2>
+    <div class="grid-4">
+      <div class="card metric">
+        <div class="label">Calories</div>
+        <div class="val accent" id="s-cals">—</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Protein</div>
+        <div class="val green" id="s-protein">—</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Steps</div>
+        <div class="val yellow" id="s-steps">—</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Weight</div>
+        <div class="val" id="s-weight">—</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="label">Workouts logged today: <span id="s-workouts">—</span></div>
+    </div>
+
+    <div
+      style="background:linear-gradient(135deg,#1a1f00,#0d1500);border:1px solid #3a4400;border-radius:12px;padding:28px;text-align:center;margin-top:24px;">
+      <div style="font-size:32px;margin-bottom:12px;">💬</div>
+      <p id="quote-text"
+        style="font-size:17px;font-style:italic;color:#e8ff47;line-height:1.7;margin-bottom:16px;transition:opacity 0.3s;">
+        "The only bad workout is the one that didn't happen."</p>
+      <button onclick="newQuote()"
+        style="padding:9px 20px;font-size:12px;background:transparent;border:1px solid #e8ff47;color:#e8ff47;border-radius:6px;cursor:pointer;font-weight:700;">🔄
+        NEW QUOTE</button>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:14px;">💪 Workout
+        Categories</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/strength.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Strength</div>
+            <div style="font-size:11px;color:#666;">Lift heavy. Rest. Grow.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/cardio.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Cardio</div>
+            <div style="font-size:11px;color:#666;">Keep your heart strong.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/flexibility.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Flexibility</div>
+            <div style="font-size:11px;color:#666;">Stretch. Stay injury free.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/nutrition.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Nutrition</div>
+            <div style="font-size:11px;color:#666;">Abs are made in the kitchen.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/hiit.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">HIIT</div>
+            <div style="font-size:11px;color:#666;">Short bursts. Maximum burn.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/cycling.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Cycling</div>
+            <div style="font-size:11px;color:#666;">Low impact. High reward.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/hydration.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Hydration</div>
+            <div style="font-size:11px;color:#666;">Drink 3L water daily.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/recovery.jpg" style="width:100%;height:150px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Recovery</div>
+            <div style="font-size:11px;color:#666;">Muscles grow when you sleep.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKOUTS -->
+  <div id="tab-workouts" class="section">
+    <h2>Workouts</h2>
+    <div class="card form-card">
+      <h3>Log Exercise</h3>
+      <div class="form-row">
+        <input id="w-name" placeholder="Exercise (e.g. Bench Press)">
+        <select id="w-muscle">
+          <option>Chest</option>
+          <option>Back</option>
+          <option>Legs</option>
+          <option>Shoulders</option>
+          <option>Arms</option>
+          <option>Core</option>
+          <option>Cardio</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <input id="w-sets" placeholder="Sets" type="number">
+        <input id="w-reps" placeholder="Reps" type="number">
+        <input id="w-weight" placeholder="Weight (kg)" type="number">
+      </div>
+      <button onclick="addWorkout()">+ LOG EXERCISE</button>
+    </div>
+    <div id="workout-list"></div>
+
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:14px;">💪 Workout
+        Inspiration</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/strength.jpg" style="width:100%;height:160px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Strength</div>
+            <div style="font-size:11px;color:#666;">Lift heavy. Rest. Grow.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/hiit.jpg" style="width:100%;height:160px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">HIIT</div>
+            <div style="font-size:11px;color:#666;">Short bursts. Maximum burn.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/cardio.jpg" style="width:100%;height:160px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Cardio</div>
+            <div style="font-size:11px;color:#666;">Keep your heart strong.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div id="tab-nutrition" class="section">
+    <h2>Nutrition</h2>
+    <div class="card form-card">
+      <h3>Log Meal</h3>
+      <div class="form-row">
+        <input id="m-name" placeholder="Food / Meal name">
+        <input id="m-cals" placeholder="Calories" type="number">
+      </div>
+      <div class="form-row">
+        <input id="m-protein" placeholder="Protein (g)" type="number">
+        <input id="m-carbs" placeholder="Carbs (g)" type="number">
+        <input id="m-fats" placeholder="Fats (g)" type="number">
+      </div>
+      <button onclick="addMeal()">+ LOG MEAL</button>
+    </div>
+    <div class="grid-4" style="margin-top:16px">
+      <div class="card metric">
+        <div class="label">Calories</div>
+        <div class="val accent" id="n-cals">0</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Protein</div>
+        <div class="val green" id="n-protein">0g</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Carbs</div>
+        <div class="val yellow" id="n-carbs">0g</div>
+      </div>
+      <div class="card metric">
+        <div class="label">Fats</div>
+        <div class="val orange" id="n-fats">0g</div>
+      </div>
+    </div>
+    <div id="meal-list"></div>
+
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:14px;">🥗 Fuel
+        Your Body</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/nutrition.jpg" style="width:100%;height:200px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Nutrition</div>
+            <div style="font-size:11px;color:#666;">Abs are made in the kitchen.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/hydration.jpg" style="width:100%;height:200px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Hydration</div>
+            <div style="font-size:11px;color:#666;">Drink 3L water daily.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY & STEPS -->
+  <div id="tab-body" class="section">
+    <h2>Body & Steps</h2>
+    <div class="grid-2">
+      <div class="card form-card">
+        <h3>Log Weight</h3>
+        <div class="form-row">
+          <input id="bw-val" placeholder="Weight (kg)" type="number" step="0.1">
+          <input id="bw-date" type="date">
+        </div>
+        <button onclick="addWeight()">+ LOG WEIGHT</button>
+      </div>
+      <div class="card form-card">
+        <h3>Log Steps</h3>
+        <div class="form-row">
+          <input id="st-val" placeholder="Steps today" type="number">
+          <input id="st-date" type="date">
+        </div>
+        <button onclick="addSteps()">+ LOG STEPS</button>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:16px">
+      <div>
+        <h3 style="margin-bottom:8px">Weight History</h3>
+        <div id="weight-list"></div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:8px">Steps History</h3>
+        <div id="steps-list"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:14px;">🧘 Rest &
+        Recover</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/recovery.jpg" style="width:100%;height:200px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Recovery</div>
+            <div style="font-size:11px;color:#666;">Muscles grow when you sleep.</div>
+          </div>
+        </div>
+
+        <div
+          style="background:#161616;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;transition:all 0.2s;cursor:pointer;"
+          onmouseover="this.style.borderColor='#e8ff47';this.style.transform='translateY(-4px)'"
+          onmouseout="this.style.borderColor='#2a2a2a';this.style.transform='translateY(0)'">
+          <img src="/static/images/flexibility.jpg" style="width:100%;height:200px;object-fit:cover;display:block;">
+          <div style="padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:700;color:#f0f0f0;margin-bottom:4px;">Flexibility</div>
+            <div style="font-size:11px;color:#666;">Stretch daily. Stay injury free.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    const today = new Date().toISOString().split("T")[0];
+    document.querySelectorAll("input[type=date]").forEach(i => i.value = today);
+
+    const quotes = [
+      "The only bad workout is the one that didn't happen.",
+      "Push yourself because no one else is going to do it for you.",
+      "Your body can stand almost anything. It's your mind you have to convince.",
+      "Fall in love with taking care of your body.",
+      "Sweat is just fat crying.",
+      "Train insane or remain the same.",
+      "No pain, no gain. Shut up and train.",
+      "The harder you work, the better you get.",
+      "Success starts with self-discipline.",
+      "Every rep counts. Every set matters.",
+      "Don't stop when you're tired. Stop when you're done.",
+      "You are one workout away from a good mood."
+    ];
+
+    function newQuote() {
+      const el = document.getElementById("quote-text");
+      el.style.opacity = 0;
+      setTimeout(() => {
+        el.textContent = '"' + quotes[Math.floor(Math.random() * quotes.length)] + '"';
+        el.style.opacity = 1;
+      }, 300);
+    }
+
+    function switchTab(name, e) {
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.getElementById("tab-" + name).classList.add("active");
+      e.target.classList.add("active");
+      if (name === "overview") loadSummary();
+      if (name === "workouts") loadWorkouts();
+      if (name === "nutrition") loadMeals();
+      if (name === "body") { loadWeight(); loadSteps(); }
+    }
+
+    function toast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2500);
+    }
+
+    async function loadSummary() {
+      const r = await fetch("/api/summary");
+      const d = await r.json();
+      document.getElementById("s-cals").textContent = d.calories + " kcal";
+      document.getElementById("s-protein").textContent = d.protein + "g";
+      document.getElementById("s-steps").textContent = Number(d.steps).toLocaleString();
+      document.getElementById("s-weight").textContent = d.latest_weight ? d.latest_weight + " kg" : "—";
+      document.getElementById("s-workouts").textContent = d.workouts_today;
+    }
+
+    async function loadWorkouts() {
+      const r = await fetch("/api/workouts");
+      const data = await r.json();
+      const todayItems = data.filter(w => w.date === today).reverse();
+      const el = document.getElementById("workout-list");
+      if (!todayItems.length) { el.innerHTML = "<p class='empty'>No workouts logged today.</p>"; return; }
+      el.innerHTML = todayItems.map(w => `
+        <div class="card list-item">
+          <div>
+            <strong>${w.name}</strong>
+            <span class="badge">${w.muscle}</span>
+            <div class="meta">${w.sets} sets × ${w.reps} reps${w.weight ? " · " + w.weight + " kg" : ""}</div>
+          </div>
+          <button class="del" onclick="deleteWorkout(${w.id})">✕</button>
+        </div>`).join("");
+    }
+
+    async function addWorkout() {
+      const name = document.getElementById("w-name").value.trim();
+      if (!name) return toast("Enter an exercise name!");
+      await fetch("/api/workouts", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name, muscle: document.getElementById("w-muscle").value,
+          sets: document.getElementById("w-sets").value || 0,
+          reps: document.getElementById("w-reps").value || 0,
+          weight: document.getElementById("w-weight").value || 0
+        })
+      });
+      ["w-name", "w-sets", "w-reps", "w-weight"].forEach(id => document.getElementById(id).value = "");
+      toast("Exercise logged! 💪"); loadWorkouts();
+    }
+
+    async function deleteWorkout(id) {
+      await fetch("/api/workouts/" + id, { method: "DELETE" });
+      toast("Deleted!"); loadWorkouts();
+    }
+
+    async function loadMeals() {
+      const r = await fetch("/api/meals");
+      const data = await r.json();
+      const todayItems = data.filter(m => m.date === today).reverse();
+      let cals = 0, protein = 0, carbs = 0, fats = 0;
+      todayItems.forEach(m => {
+        cals += +m.calories || 0; protein += +m.protein || 0;
+        carbs += +m.carbs || 0; fats += +m.fats || 0;
+      });
+      document.getElementById("n-cals").textContent = Math.round(cals) + " kcal";
+      document.getElementById("n-protein").textContent = Math.round(protein) + "g";
+      document.getElementById("n-carbs").textContent = Math.round(carbs) + "g";
+      document.getElementById("n-fats").textContent = Math.round(fats) + "g";
+      const el = document.getElementById("meal-list");
+      if (!todayItems.length) { el.innerHTML = "<p class='empty'>No meals logged today.</p>"; return; }
+      el.innerHTML = todayItems.map(m => `
+        <div class="card list-item">
+          <div>
+            <strong>${m.name}</strong>
+            <div class="meta">${m.calories} kcal · P: ${m.protein}g · C: ${m.carbs}g · F: ${m.fats}g</div>
+          </div>
+          <button class="del" onclick="deleteMeal(${m.id})">✕</button>
+        </div>`).join("");
+    }
+
+    async function addMeal() {
+      const name = document.getElementById("m-name").value.trim();
+      if (!name) return toast("Enter a meal name!");
+      await fetch("/api/meals", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name, calories: document.getElementById("m-cals").value || 0,
+          protein: document.getElementById("m-protein").value || 0,
+          carbs: document.getElementById("m-carbs").value || 0,
+          fats: document.getElementById("m-fats").value || 0
+        })
+      });
+      ["m-name", "m-cals", "m-protein", "m-carbs", "m-fats"].forEach(id => document.getElementById(id).value = "");
+      toast("Meal logged! 🍗"); loadMeals();
+    }
+
+    async function deleteMeal(id) {
+      await fetch("/api/meals/" + id, { method: "DELETE" });
+      toast("Deleted!"); loadMeals();
+    }
+
+    async function loadWeight() {
+      const r = await fetch("/api/weight");
+      const data = await r.json();
+      const el = document.getElementById("weight-list");
+      if (!data.length) { el.innerHTML = "<p class='empty'>No weight entries yet.</p>"; return; }
+      el.innerHTML = data.slice().reverse().map(w => `
+        <div class="card list-item">
+          <div><strong>${w.value} kg</strong><div class="meta">${w.date}</div></div>
+          <button class="del" onclick="deleteWeight(${w.id})">✕</button>
+        </div>`).join("");
+    }
+
+    async function addWeight() {
+      const val = document.getElementById("bw-val").value;
+      if (!val) return toast("Enter your weight!");
+      await fetch("/api/weight", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value: parseFloat(val), date: document.getElementById("bw-date").value })
+      });
+      document.getElementById("bw-val").value = "";
+      toast("Weight logged! ⚖️"); loadWeight();
+    }
+
+    async function deleteWeight(id) {
+      await fetch("/api/weight/" + id, { method: "DELETE" });
+      toast("Deleted!"); loadWeight();
+    }
+
+    async function loadSteps() {
+      const r = await fetch("/api/steps");
+      const data = await r.json();
+      const el = document.getElementById("steps-list");
+      if (!data.length) { el.innerHTML = "<p class='empty'>No steps logged yet.</p>"; return; }
+      el.innerHTML = data.slice().reverse().map(s => `
+        <div class="card list-item">
+          <div><strong>${Number(s.steps).toLocaleString()} steps</strong><div class="meta">${s.date}</div></div>
+        </div>`).join("");
+    }
+
+    async function addSteps() {
+      const val = document.getElementById("st-val").value;
+      if (!val) return toast("Enter your step count!");
+      await fetch("/api/steps", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ steps: parseInt(val), date: document.getElementById("st-date").value })
+      });
+      document.getElementById("st-val").value = "";
+      toast("Steps logged! 🚶"); loadSteps();
+    }
+
+    loadSummary();
+  </script>
+</body>
+
+</html>
